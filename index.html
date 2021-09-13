@@ -251,7 +251,7 @@
                   <h2 class="h4 mt-3 mt-md-2 my-2">
                     Hello! I'm Phuree Kanusont.
                   </h2>
-                  <p>
+                  <p style="text-align: justify;">
                     I graduated from branch of Software Engineering, faculty of
                     Information Technology, King Mongkut's Institute of
                     Technology Ladkrabang. I am passionate in technologies. I am
@@ -272,12 +272,6 @@
                     </div>
                     <div class="col-sm-10">
                       <div class="pb-1 fw-bolder">{{ email }}</div>
-                    </div>
-                    <div class="col-sm-2">
-                      <div class="pb-1">Phone:</div>
-                    </div>
-                    <div class="col-sm-10">
-                      <div class="pb-1 fw-bolder">{{ phone }}</div>
                     </div>
                     <div class="col-sm-2">
                       <div class="pb-1">Location:</div>
@@ -585,6 +579,7 @@
                         >
                         <input
                           class="form-control"
+                          v-model="name"
                           type="text"
                           id="name"
                           name="name"
@@ -596,9 +591,10 @@
                           >Email</label
                         >
                         <input
+                          v-model="senderMail"
                           class="form-control"
                           type="email"
-                          id="email"
+                          id="email-form"
                           name="_replyto"
                           required
                         />
@@ -608,6 +604,7 @@
                           >Message</label
                         >
                         <textarea
+                          v-model="message"
                           class="form-control"
                           style="resize: none"
                           id="message"
@@ -616,7 +613,7 @@
                           required
                         ></textarea>
                       </div>
-                      <button class="btn btn-primary mt-2" type="submit">
+                      <button @click="sendEmail" class="btn btn-primary mt-2" type="submit">
                         Send
                       </button>
                     </form>
@@ -626,12 +623,11 @@
                   <div class="mt-3 px-1">
                     <div class="h5">Let’s talk how I can help you!</div>
                     <p>
-                      If you like my work and want to avail my services then
+                      If you like my work and if you feel we can work together
                       drop me a message using the contact form.
                     </p>
                     <p>
-                      Or get in touch using my email, skype or my contact
-                      number.
+                      Or get in touch using my email or number.
                     </p>
                     <p>See you!</p>
                   </div>
@@ -642,12 +638,6 @@
                       </div>
                       <div class="col-sm-10">
                         <div class="pb-1 fw-bolder">yora46@gmail.com</div>
-                      </div>
-                      <div class="col-sm-2">
-                        <div class="pb-1">Phone:</div>
-                      </div>
-                      <div class="col-sm-10">
-                        <div class="pb-1 fw-bolder">+669-455-87588</div>
                       </div>
                     </div>
                   </div>
@@ -666,46 +656,32 @@
                       <li class="nav-item">
                         <a
                           class="nav-link"
-                          href="https://twitter.com/templateflip"
-                          title="Twitter"
-                          ><i class="fab fa-twitter"></i
-                          ><span class="menu-title sr-only">Twitter</span></a
-                        >
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link"
-                          href="https://www.facebook.com/templateflip"
+                          href="https://www.facebook.com/phureek"
                           title="Facebook"
                           ><i class="fab fa-facebook"></i
-                          ><span class="menu-title sr-only">Facebook</span></a
+                          ><span class="menu-title sr-only"
+                            >Facebook</span
+                          ></a
                         >
                       </li>
                       <li class="nav-item">
                         <a
                           class="nav-link"
-                          href="https://www.instagram.com/templateflip"
+                          href="https://www.instagram.com/_imyora"
                           title="Instagram"
                           ><i class="fab fa-instagram"></i
-                          ><span class="menu-title sr-only">Instagram</span></a
+                          ><span class="menu-title sr-only"
+                            >Instagram</span
+                          ></a
                         >
                       </li>
                       <li class="nav-item">
                         <a
                           class="nav-link"
-                          href="https://www.linkedin.com/"
-                          title="LinkedIn"
-                          ><i class="fab fa-linkedin"></i
-                          ><span class="menu-title sr-only">LinkedIn</span></a
-                        >
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link"
-                          href="https://www.behance.net/templateflip"
-                          title="Behance"
-                          ><i class="fab fa-behance"></i
-                          ><span class="menu-title sr-only">Behance</span></a
+                          href="https://line.me/ti/p/fTAzh4kale"
+                          title="Line"
+                          ><i class="fab fa-line"></i
+                          ><span class="menu-title sr-only">Line</span></a
                         >
                       </li>
                     </ul>
@@ -738,14 +714,32 @@
       <script src="./scripts/bootstrap.bundle.min.js?ver=1.2.0"></script>
       <script src="./scripts/aos.min.js?ver=1.2.0"></script>
       <script src="./scripts/main.js?ver=1.2.0"></script>
+      <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
       <script>
+        const firebaseConfig = {
+          apiKey: "AIzaSyCIgVVldEnqhlzwkqVDtOeWw_a5oZdQDF8",
+          authDomain: "yora-resume.firebaseapp.com",
+          projectId: "yora-resume",
+          storageBucket: "yora-resume.appspot.com",
+          messagingSenderId: "463287187696",
+          appId: "1:463287187696:web:94bfb048387418ae9faa35",
+          measurementId: "G-W9F98P0V98",
+        };
+
+        // Initialize Firebase
+        const firebaseApp = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore()
         const d = new Date();
         const app = new Vue({
           el: "#app",
           data: {
             age: d.getFullYear() - 1998,
             email: "yora46@gmail.com",
-            phone: "+669-455-87588",
+            name: '',
+            senderMail: '',
+            message: '',
             address: "Bangkok, Thailand",
             skills: [
               {
@@ -1113,6 +1107,10 @@
                     name: "My Song",
                     url: "https://youtu.be/90l8STP76-4",
                   },
+                  {
+                    name: "Github",
+                    url: "https://github.com/realkyr/Love-Peach",
+                  },
                 ],
               },
               {
@@ -1229,13 +1227,10 @@
               {
                 name: "Business Brotherhood 2018",
                 id: "business-bro",
-                desc: `Business Brotherhood is Startup incubation program
-                      that is ready to grow by leaps and bounds with a
-                      big company as a mentor The aim is to develop
-                      students to be ready to cooperate with the private sector.
-                      and make good use of the resources available at the
+                desc: `Business Brotherhood is Startup incubation program. The aim is to develop
+                      students to be ready to make good use of the resources available at the
                       university for effective startups. Our team has became finalist
-                      of the program by developing Mover Schoolbus Security Platform.`,
+                      of the program by developing Mover Security Platform.`,
                 thumbnail: "images/portfolio/businessbro.jpg",
                 front: [],
                 back: [],
@@ -1305,6 +1300,23 @@
                 ],
               },
             ],
+          },
+          methods: {
+            async sendEmail (e) {
+              e.preventDefault()
+              const isMailValid = document.getElementById('email-form').checkValidity()
+              if (isMailValid) {
+                console.log(this.name, this.senderMail, this.message)
+                await db.collection('emails').doc().set({
+                  name: this.name,
+                  email: this.senderMail,
+                  message: this.message
+                })
+                window.alert('Message send complete')
+              } else {
+                window.alert('Please check your email validity.')
+              }
+            }
           },
           computed: {
             isMobile() {
