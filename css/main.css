@@ -2,6 +2,70 @@ html, body {
   overflow-x: hidden;
 }
 
+.timeline {
+  position: relative;
+  padding: 40px 0;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.timeline:before {
+  content: "";
+  position: absolute;
+  top: 40px;
+  left: 5px;
+  width: 3px;
+  height: calc(100% - 80px);
+  background: #f6e05e;
+}
+
+.timeline .column {
+  margin: 40px 40px 40px 60px;
+  position: relative;
+}
+
+.timeline .column .title h1 {
+  font-size: 70px;
+  color: rgba(0,0,0,0.1);
+  font-family: serif;
+  letter-spacing: 3px;
+}
+
+@media screen and (min-width: 800px) {
+  .timeline .column .title h1 {
+    font-size: 100px;
+  }
+}
+
+.timeline .column .title h1:before {
+  content: "";
+  border-radius: 50%;
+  position: absolute;
+  left: -62px;
+  top: 86px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border: 3px solid #f6e05e;
+}
+
+.timeline .column .title h2 {
+  margin-top: -60px;
+  font-size: 33px;
+}
+
+.timeline .column .description p {
+  font-size: 18px;
+  line-height: 20px;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.timeline .column .description {
+  border-left: 1px solid #000;
+}
+
+
 .content-detail {
   height: 220px;
   margin-bottom: 5px;
