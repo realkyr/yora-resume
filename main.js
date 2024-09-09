@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import {findDifference} from "./scripts/time_calculator";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCIgVVldEnqhlzwkqVDtOeWw_a5oZdQDF8",
@@ -64,6 +65,10 @@ const app = new Vue({
         name: "Ant Design",
         icon: "images/skills/antd.svg",
       },
+      {
+        name: "Tailwind",
+        icon: "images/skills/tw.svg",
+      },
     ],
     backend: [
       {
@@ -90,6 +95,10 @@ const app = new Vue({
         name: "Python",
         icon: "images/skills/python.png",
       },
+      {
+        name: "Go",
+        icon: "images/skills/go.svg",
+      }
     ],
     other: [
       {
@@ -193,6 +202,10 @@ const app = new Vue({
       {
         name: "AWS Route 53",
         icon: "images/skills/route.png",
+      },
+      {
+        name: "Azure Cosmos DB",
+        icon: "images/skills/cosmos.svg",
       },
       {
         name: "OpenCV",
@@ -306,8 +319,8 @@ const app = new Vue({
                       developed by using Next.js, Firestore and Editor.js which is block content
                       editor library for writing review, deployed on Google App Engine.`,
         thumbnail: "images/portfolio/cafeteller.jpg",
-        front: [4, 9],
-        back: [0, 2],
+        front: [4, 9, 10],
+        back: [0, 2, 6],
         tool: [2, 4, 5, 6, 10, 8],
         other: [],
         source: [
@@ -601,8 +614,23 @@ const app = new Vue({
     }
   },
   computed: {
-    touchWorkPeroid() {
-      return dayjs().diff(dayjs('01-10-2021').format('DD-MM-YYYY'), 'month')
+    touchWorkPeriod() {
+      const end = dayjs('2022-05-01')
+      const start = dayjs('2021-10-01')
+
+      return findDifference(start, end)
+    },
+    muangThaiPeriod() {
+      const end = dayjs()
+      const start = dayjs('2024-02-01')
+
+      return findDifference(start, end)
+    },
+    scgcPeriod() {
+      const end = dayjs('2024-02-01')
+      const start = dayjs('2022-05-01')
+
+      return findDifference(start, end)
     },
     isMobile() {
       return window.innerWidth < 992;
